@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Objects.Employee;
 import Utils.clsUtil;
+import models.Employee;
 public  class DAOEmployee implements DAOEmployeeInterface{
 
 	@Override
@@ -19,7 +19,7 @@ public  class DAOEmployee implements DAOEmployeeInterface{
 			return Employees;
 		
 		String Query="SELECT * from employee;" ;
-		try (connection; PreparedStatement preparedStatement=connection.prepareCall(Query))
+		try (connection; PreparedStatement preparedStatement=connection.prepareStatement(Query))
 		{
 			ResultSet resultSet=preparedStatement.executeQuery();
 			while(resultSet.next())
@@ -39,18 +39,18 @@ public  class DAOEmployee implements DAOEmployeeInterface{
 	public Employee FindById(int Id) {
 		
 		Connection connection=DataBaseConnection.GetConnection();
-		Employee employee=new Employee();
+		
 		if (connection==null)
 			return null;
 		
 		String Query="SELECT * FROM employee WHERE id=?;";
 
-		try(PreparedStatement preparedStatement=connection.prepareCall(Query))
+		try(PreparedStatement preparedStatement=connection.prepareStatement(Query))
 		{
 			preparedStatement.setInt(1, Id);
 			ResultSet resultset=preparedStatement.executeQuery();
 			if(resultset.next())
-				employee=new Employee(resultset.getInt(1),resultset.getString(2),resultset.getBoolean(3),resultset.getDate(4),resultset.getDouble(5));
+				return new Employee(resultset.getInt(1),resultset.getString(2),resultset.getBoolean(3),resultset.getDate(4),resultset.getDouble(5));
 			
 		}catch(SQLException ex)
 		{
@@ -66,7 +66,7 @@ public  class DAOEmployee implements DAOEmployeeInterface{
 			}
 		}
 		
-		return employee;
+		return null;
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public  class DAOEmployee implements DAOEmployeeInterface{
 		{
 			//Update Employee
 			String Query="update  employee set name=? ,gender=? ,birthday=? ,salary=?  where id=?";
-			try ( connection;PreparedStatement preparedStatement=connection.prepareCall(Query))
+			try ( connection;PreparedStatement preparedStatement=connection.prepareStatement(Query))
 			{
 				preparedStatement.setString(1,employee.get_Name());
 				preparedStatement.setBoolean(2, employee.is_Gender());
@@ -99,7 +99,7 @@ public  class DAOEmployee implements DAOEmployeeInterface{
 			PreparedStatement preparedStatement=null;
 			try{
 			String Query="insert into employee(name,gender,birthday,salary) values (?,?,?,?)";
-			preparedStatement=connection.prepareCall(Query);
+			preparedStatement=connection.prepareStatement(Query);
 			preparedStatement.setString(1, employee.get_Name());
 			preparedStatement.setBoolean(2, employee.is_Gender());
 			preparedStatement.setDate(3, clsUtil.JavaDateToSql(employee.getBirthday()));
@@ -134,7 +134,22 @@ public  class DAOEmployee implements DAOEmployeeInterface{
 
 	@Override
 	public void DeleteById(int Id) {
-		// TODO Auto-generated method stub
+		Connection connection=DataBaseConnection.GetConnection();
+		if (connection==null)
+		
+			return;
+		
+		String Query="DELETE FROM employee WHERE id=?";
+		try(connection;PreparedStatement preparedStatement=connection.prepareStatement(Query))
+		{
+			preparedStatement.setInt(1, Id);
+			preparedStatement.executeUpdate();
+			
+		}catch(SQLException ex)
+		{
+			ex.printStackTrace();
+		}
+		
 		
 	}
 

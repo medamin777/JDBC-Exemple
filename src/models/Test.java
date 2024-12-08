@@ -1,4 +1,4 @@
-package Objects;
+package models;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ public class Test {
 		DAOEmployeeInterface daoemployee=new DAOEmployee();
 		//daoemployee.getAll().forEach(n->{System.out.println(n);});
 		
-		System.out.println(daoemployee.FindById(1));
+	    //System.out.println(daoemployee.FindById(5));
+		daoemployee.DeleteById(5);
 	}
 }
