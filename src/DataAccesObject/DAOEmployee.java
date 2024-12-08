@@ -37,8 +37,36 @@ public  class DAOEmployee implements DAOEmployeeInterface{
 
 	@Override
 	public Employee FindById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Connection connection=DataBaseConnection.GetConnection();
+		Employee employee=new Employee();
+		if (connection==null)
+			return null;
+		
+		String Query="SELECT * FROM employee WHERE id=?;";
+
+		try(PreparedStatement preparedStatement=connection.prepareCall(Query))
+		{
+			preparedStatement.setInt(1, Id);
+			ResultSet resultset=preparedStatement.executeQuery();
+			if(resultset.next())
+				employee=new Employee(resultset.getInt(1),resultset.getString(2),resultset.getBoolean(3),resultset.getDate(4),resultset.getDouble(5));
+			
+		}catch(SQLException ex)
+		{
+			ex.printStackTrace();
+		}
+		finally
+		{
+			try {
+				connection.close();
+			}catch(SQLException ex)
+			{
+				ex.printStackTrace();
+			}
+		}
+		
+		return employee;
 	}
 
 	@Override

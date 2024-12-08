@@ -11,6 +11,8 @@ public class Test {
 		//SimpleDateFormat DateFormat=new SimpleDateFormat("dd-MM-yyyy");
 		//Employee employee4=new Employee(5,"Salima",false,DateFormat.parse("18-10-1989"),2322);
 		DAOEmployeeInterface daoemployee=new DAOEmployee();
-		daoemployee.getAll().forEach(n->{System.out.println(n);});
+		//daoemployee.getAll().forEach(n->{System.out.println(n);});
+		
+		System.out.println(daoemployee.FindById(1));
 	}
 }
