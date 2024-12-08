@@ -30,7 +30,7 @@ public class Employee {
 	}
 	@Override
 	public String toString() {
-		return "Employer [_Id=" + _Id + ", _Name=" + _Name + ", _Gender=" + _Gender + ", Birthday=" + _Birthday
+		return "Employee [_Id=" + _Id + ", _Name=" + _Name + ", _Gender=" + _Gender + ", Birthday=" + _Birthday
 				+ ", _Salary=" + _Salary + "]";
 	}
 	public int get_Id() {

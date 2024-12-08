@@ -4,15 +4,12 @@ import java.util.List;
 
 public interface DAOEmployeeInterface {
 	
-	 List<Employee> FindAll();
-	
+	 List<Employee> getAll();
 	
 	 Employee FindById(int Id);
 	
+	 void Save(Employee empoyer);
 	
-	  void Save(Employee empoyer);
-	
-	
-	void DeleteById(int Id);
+	 void DeleteById(int Id);
 
 }
